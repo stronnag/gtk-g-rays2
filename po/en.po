@@ -1,0 +1,315 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-10 22:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/wbt201.glade.h:1
+msgid "(c) 2007 Jonathan Hudson <jh+gps@daria.co.uk>"
+msgstr ""
+
+#: ../src/wbt201.glade.h:2
+msgid "Altitude"
+msgstr ""
+
+#: ../src/wbt201.glade.h:3
+msgid "Application Name"
+msgstr ""
+
+#: ../src/wbt201.glade.h:4
+msgid "Auto Sleep"
+msgstr ""
+
+#: ../src/wbt201.glade.h:5
+msgid "Clear Log"
+msgstr ""
+
+#: ../src/wbt201.glade.h:6
+msgid "Configuration and data tool for Wintec WBT-201 GPS "
+msgstr ""
+
+#: ../src/wbt201.glade.h:7
+msgid "Course"
+msgstr ""
+
+#: ../src/wbt201.glade.h:8
+msgid "Data"
+msgstr ""
+
+#: ../src/wbt201.glade.h:9
+msgid "Device Info"
+msgstr ""
+
+#: ../src/wbt201.glade.h:10
+msgid "Device Name"
+msgstr ""
+
+#: ../src/wbt201.glade.h:11
+msgid ""
+"Disabled\n"
+"Heading Change\n"
+"Speed Change\n"
+"Time Interval\n"
+"Distance Interval\n"
+"Time & Distance"
+msgstr ""
+
+#: ../src/wbt201.glade.h:17
+msgid "Distance Mode Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:18
+msgid "Enter / update device names,one per line"
+msgstr ""
+
+#: ../src/wbt201.glade.h:19
+msgid "GPL v2 or later"
+msgstr ""
+
+#: ../src/wbt201.glade.h:20 ../src/wbt201.c:328
+msgid "GTK G-Rays 2"
+msgstr ""
+
+#: ../src/wbt201.glade.h:21
+msgid "Hardware Version"
+msgstr ""
+
+#: ../src/wbt201.glade.h:22
+msgid "Heading Mode Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:23
+msgid "High Speed"
+msgstr ""
+
+#: ../src/wbt201.glade.h:24
+msgid "High Speed Limit"
+msgstr ""
+
+#: ../src/wbt201.glade.h:25
+msgid "High-High Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:26
+msgid "Info"
+msgstr ""
+
+#: ../src/wbt201.glade.h:27
+msgid "Latitude"
+msgstr ""
+
+#: ../src/wbt201.glade.h:28
+msgid "Log End"
+msgstr ""
+
+#: ../src/wbt201.glade.h:29
+msgid "Log Start"
+msgstr ""
+
+#: ../src/wbt201.glade.h:30
+msgid "Log Type"
+msgstr ""
+
+#: ../src/wbt201.glade.h:31
+msgid "Log Version"
+msgstr ""
+
+#: ../src/wbt201.glade.h:32
+msgid "Longitude"
+msgstr ""
+
+#: ../src/wbt201.glade.h:33
+msgid "Low Speed"
+msgstr ""
+
+#: ../src/wbt201.glade.h:34
+msgid "Low Speed Limit"
+msgstr ""
+
+#: ../src/wbt201.glade.h:35
+msgid "Low-Middle Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:36
+msgid "Middle Speed"
+msgstr ""
+
+#: ../src/wbt201.glade.h:37
+msgid "Middle-High Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:38
+msgid "Over Speed"
+msgstr ""
+
+#: ../src/wbt201.glade.h:39
+msgid "Preferences"
+msgstr ""
+
+#: ../src/wbt201.glade.h:40
+msgid "Remember last device"
+msgstr ""
+
+#: ../src/wbt201.glade.h:41
+msgid "Reset Defaults"
+msgstr ""
+
+#: ../src/wbt201.glade.h:42
+msgid "Save Log as _GPX"
+msgstr ""
+
+#: ../src/wbt201.glade.h:43
+msgid "Save as _KML"
+msgstr ""
+
+#: ../src/wbt201.glade.h:44
+msgid "Save raw _NMEA"
+msgstr ""
+
+#: ../src/wbt201.glade.h:45
+msgid "Serial Port"
+msgstr ""
+
+#: ../src/wbt201.glade.h:46
+msgid "Settings"
+msgstr ""
+
+#: ../src/wbt201.glade.h:47
+msgid "Software Version"
+msgstr ""
+
+#: ../src/wbt201.glade.h:48
+msgid "Speed"
+msgstr ""
+
+#: ../src/wbt201.glade.h:49
+msgid "Speed Mode Time"
+msgstr ""
+
+#: ../src/wbt201.glade.h:50
+msgid "Status"
+msgstr ""
+
+#: ../src/wbt201.glade.h:51
+msgid "Time"
+msgstr ""
+
+#: ../src/wbt201.glade.h:52
+msgid "Time Mode Interval"
+msgstr ""
+
+#: ../src/wbt201.glade.h:53
+msgid "Trackmarks in KML"
+msgstr ""
+
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: ../src/wbt201.glade.h:55
+msgid "Your name here"
+msgstr ""
+
+#: ../src/wbt201.glade.h:56
+msgid "_About"
+msgstr ""
+
+#: ../src/wbt201.glade.h:57
+msgid "_Edit"
+msgstr ""
+
+#: ../src/wbt201.glade.h:58
+msgid "_File"
+msgstr ""
+
+#: ../src/wbt201.glade.h:59
+msgid "_Help"
+msgstr ""
+
+#: ../src/wbt201.glade.h:60
+msgid "http://www.daria.co.uk/gps"
+msgstr ""
+
+#: ../src/wbt201.c:75
+#, c-format
+msgid "Error '%s': %s"
+msgstr ""
+
+#: ../src/wbt201.c:120
+msgid "writing preferences"
+msgstr ""
+
+#: ../src/wbt201.c:283
+msgid "be verbose"
+msgstr ""
+
+#: ../src/wbt201.c:285
+msgid "version info"
+msgstr ""
+
+#: ../src/wbt201.c:293
+msgid "- configure wbt-201 GPS"
+msgstr ""
+
+#: ../src/wbt201.c:316
+msgid "C_onnect"
+msgstr ""
+
+#: ../src/wbt201.c:317
+msgid "_Disconnect"
+msgstr ""
+
+#: ../src/babel_spawn.c:76
+msgid "GPSbabel version is too old"
+msgstr ""
+
+#: ../src/babel_spawn.c:90
+msgid "Gpsbabel download"
+msgstr ""
+
+#: ../src/misc.c:88
+msgid "Save File"
+msgstr ""
+
+#: ../src/misc.c:103
+msgid "Any File"
+msgstr ""
+
+#: ../src/misc.c:107
+msgid "GPX Files"
+msgstr ""
+
+#: ../src/misc.c:115
+msgid "KML Files"
+msgstr ""
+
+#: ../src/misc.c:132
+msgid "Delete from device"
+msgstr ""
+
+#: ../src/misc.c:138
+msgid "Append if existing"
+msgstr ""
+
+#: ../src/misc.c:145
+msgid "Save tracks"
+msgstr ""
+
+#: ../src/messages.c:132
+#, c-format
+msgid "%s %s %s %s fix"
+msgstr ""
+
+#: ../src/messages.c:158
+#, c-format
+msgid "Satellites: %d/%d H/V/PDOP: %.1f/%.1f/%.1f"
+msgstr ""

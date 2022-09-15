@@ -1,0 +1,320 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="index">
+  <info>
+    <title type="link">gtk-g-rays2 GPS manager</title>
+    <title type="text">gtk-g-rays2 GPS manager</title>
+    <credit type="author">
+      <name>Jonathan Hudson</name>
+      <email>jh+gps@daria.co.uk</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+  </info>
+  <title>Gtk-G-Rays2 Manual</title>
+
+  <section id="into">
+    <title>Introduction</title>
+    <quote>
+      <cite>William Safire</cite>
+      <p>
+	Knowing how things work is the basis for appreciation, and is
+	thus a source of civilised delight.
+      </p>
+    </quote> 
+    <p>
+	<app>gtk-g-rays2</app> is an application to configure and
+	manage the Wintec WBT 201 Bluetooth GPS.</p> <p>The Wintec WBT
+	201 is an impressive, Bluetooth and USB, logging GPS.  It can
+	be used with <link
+	href="http://www.gpsbabel.org/">gpsbabel</link> versions later
+	than 1.33, including 1.34 pre-release CVS versions.</p>
+	<p>In order to access the WBT 201 configuration settings, the
+	manufacturer provides a closed source application, only
+	available on Microsoft operating
+	systems. <app>gtk-g-rays2</app> attempts to rectify this
+	situation by providing a portable, open source configuration
+	tool that can work on multiple operating systems.
+	<app>gtk-g-rays2</app> provides as much of the functionality
+	of the close source application as is possible from the
+	available information on the WBT-201 protocol.  </p>
+	<p><app>gtk-g-rays2</app> is licensed under the GNU Public
+	Licence v2 or any later version of your choice.
+	<app>gtk-g-rays2</app> is (c) Jonathan R Hudson <sys
+	href="mailto:jh+gps@daria.co.uk">jh+gps@daria.co.uk</sys>
+  </p>
+  </section>
+  <section id="install">
+    <title>Installation</title>
+    <p><app>gtk-g-rays2</app> is provided as a source
+    code archive. It requires the GTK2+ toolkit with the cairo graphics
+    library. If you have a typical open source development environment
+    installed, than installation should be as simple as:</p>
+    <code>$ ./configure [--prefix=/usr]
+    $ make
+    $ sudo make install</code>
+    <p>
+      On first launch, <app>gtk-g-rays2</app> will create
+      a default configuration file,
+      <file>$HOME/.config/g-rays2/g-rays2rc</file>, which is
+      populated with default values that may be edited from the
+      Preferences menu option.
+    </p>
+  </section>
+  <section id="usage">
+    <title>Usage</title> 
+    <quote>
+      <cite>Linus Torvalds</cite>  
+      <p>
+	How should I know if it works?  That's what beta testers are for.
+	I only coded it.
+      </p>
+    </quote>
+    <p>The application is launched as</p>
+    <code>$ gtk-g-rays2</code> <p>It may be run from a terminal, or
+    from a menu or other graphical user interface launcher.  A
+    suitable icon for a graphical launcher may be found in
+    <file>$prefix/share/gtk-g-rays2/</file> ($prefix is /usr/local
+    unless changed at build time).
+  </p>
+  <section id="settingstab">
+    <title>Settings Tab</title> <p>On start up, the main window is
+    displayed, showing the settings tab:
+  </p>
+  <media type="image" src="grays1.png" mime="image/png">
+    <p>Settings Tab</p>
+  </media>
+  <p>
+    At this stage, the useful controls are the <gui>Serial Port</gui> 
+    and <gui>Connect</gui> items. The Serial Port control lists the 
+    serial devices available, by default <file>auto</file>, 
+    <file>bluetooth</file> and <file>/dev/ttyUSB0</file>; 
+    however this may be changed from the <guiseq>
+    <gui>Edit</gui>
+    <gui>Preferences</gui>
+    </guiseq> menu item.
+  </p>
+  <p>If the selected device is named <gui>auto</gui>, then the application
+  will attempt to discover first a USB and then a bluetooth
+  connection.
+  </p>
+  <p>A device named <gui>bluetooth</gui> will invoke Bluetooth
+  auto-discovery.
+  </p>
+  <p>Once a suitable device is selected from the Serial Port
+  combo-box, and the user clicks on the <gui>Connect button</gui>,
+  <app>gtk-g-rays2</app> will attempt to connect to the device and
+  read the settings. If the connection is successful, the connection
+  indicator will show the new state, and the settings will be read
+  from the device and displayed.
+  </p>
+  <media type="image" src="grays2.png" mime="image/png" >
+    <p>Settings Tab, connected</p>
+  </media>
+  <p>
+    Items that are "greyed out" may not be changed; on the right hand
+    side, the valid items will depend on the <gui>Log Type</gui>
+    selected. The different log types and the parameters pertinent to
+    each one are described in the documentation of the proprietary
+    Wintec application. Please see this document for an explanation
+    of the fields.
+  </p>
+  <p>The buttons on this tab perform the following functions:</p>
+  <terms>  
+    <item>
+      <title>
+      <gui>Apply</gui></title>
+      <p>Clicking Apply will apply the settings to the device;</p>
+    </item>
+    <item>
+      <title>
+      <gui>Clear Log</gui></title>
+      <p>Clear Log will clear any logged (stored) track and way-point
+      data from the device;</p>
+    </item>
+    <item>
+      <title>
+      <gui>Reset Defaults</gui></title>
+      <p>Reset Defaults will restore the factory defaults (or at least
+      the initial settings obtained from the author's device);</p>
+    </item>
+    <item><title><gui>Quit</gui></title>
+    <p>Quit closes the application, and saves the current preferences.</p>
+    </item>
+  </terms>  
+  </section>
+  <section id="datatab">
+    <title>Data Tab</title>
+    <p>The data tab switches the device from settings into normal
+    usage mode and displays GPS data and satellite
+    information. Although the fields cannot be edited, they are
+    "activated", so data may be copied with the mouse.
+    </p>
+    <media type="image" src="grays0.png" mime="image/png">
+      <p>Data Tab</p>
+    </media>
+    <p>As with the Setting tab, Quit closes the application, and saves the current preferences.
+    </p>
+  </section>
+  </section>
+  <section id="menus">
+    <title>Menus</title>
+    <quote>
+      <cite>K.E. Iverson</cite>
+      <p> 
+	Almost anything derogatory you could say about today's software design
+	would be accurate.
+      </p>
+    </quote>
+    <section id="filemenu">
+      <title>File Menu</title>
+      <p>The File Menu offers the following options:</p>
+      <media type="image" src="grays-files.png" mime="image/png">
+	<p>Files Menu</p>
+      </media>
+      <terms>  
+	<item>
+	  <title><gui>Save Log as GPX</gui></title>
+	  <p>Saves the current device log files as a GPX
+	  file. GPSbabel is required for this, v1.34 or later (including
+	  pre-releases of 2007-07-03 and later). The standard GTK2+ file dialogue
+	  is displayed for the user to enter a file name, with the extra
+	  options.
+	  </p>
+	  <media src="grays4.png" mime="image/png" type="image">
+	    <p>Files Menu</p>
+	  </media>
+	  <list>
+	    <item>
+	      <p>Delete from Device. If checked, after saving, the log
+	      file is deleted from the device.</p>
+	    </item>
+	    <item>
+	      <p>Save Tracks. Track points are saved in the GPX. This
+	      is the default.</p>
+	    </item>
+	    <item>
+	      <p>Save Waypoints. Waypoints (i.e. from pressing the right
+	      button on the device) are saved. This is the default.
+	      </p>
+	    </item>
+	  </list>
+	</item>
+	<item>
+	  <title><gui>Save Log as KML</gui></title>
+	  <p>
+	    Saves the current device log files as a KML file. GPSbabel
+	    is required for this, v1.34 or later (including pre-releases
+	    of 2007-07-03 and later).  The standard GTK2+ file
+	    dialogue is displayed for the user to enter a file name,
+	    with the same options as for GPX.
+	  </p>
+	</item>
+	<item>
+	  <title><gui>Save raw NMEA</gui></title>
+	  <p>
+	    If this option is selected, raw NMEA (GPS data), when the
+	    Data Tab is shown, will be saved to a file.  Data
+	    continues to be logged until the check box on the menu
+	    item is cleared again.
+	  </p>
+	  <media type="image" src="grays-files1.png" mime="image/png">
+	      <p>Files Menu</p>
+	    </media>
+	</item>
+      </terms>
+    </section>
+    <section id="helpmenu">
+      <title>Help Menu</title>
+      <p>The About option displays author, version and copyright
+      information.</p>
+      <media type="image" src="grays99.png" mime="image/png">
+	<p>Preferences</p>
+      </media>
+    </section>
+  </section>
+  <section id="Automagic">
+    <title>Automatic Bluetooth instantiation</title>
+    <quote>
+      <cite>Geer et al.</cite>
+      <p> 
+	The central enemy of reliability is complexity.
+      </p>
+    </quote>
+    <p>From version 2.00, Bluetooth devices are
+    auto-discovered. Let's see how reliable that is.
+    </p>
+    <p>For version 2.04
+    and later, we eschew the Bluez API (shall we change the API with
+    every release?, shall we fail to provide any sort of usable
+    documentation?</p> 
+    <p> Instead, from 2.04, <app>gtk-g-rays2</app> uses the low level
+    libbluetooth API. This should work across all distributions,
+    regardless of Bluez version. 
+    </p>
+    <p>
+      The main reason for migrating to a BT auto-discovery
+      model are:
+    </p>
+      <list>
+	<item><p>Remove the need for a SUID / sudo script to instigate
+	the Bluetooth serial connection;</p></item>
+	<item><p>Allow for auto-detection and configuration of the
+	first available interface (USB or Bluetooth, in that
+	order).</p></item>
+      </list>
+    <p>There are a number of things you need to be aware using the
+    2.0x Bluetooth auto-detection implementation:</p>
+    <list>
+      <item><p>The bluetooth service must be running;</p>
+      </item>
+      <item><p>The G-Rays2 device must be paired. Changing the BT
+      adaptor probably means it needs re-pairing.
+    </p></item>
+    <item><p>It is also possible that some application (perhaps
+    <app>modem-manager</app>) has grabbed the BT (or USB) device, and
+    is unhelpfully probing it in case it happens to be a 3G
+    modem. There are a couple of sample udev rules (install in
+    <file>/etc/udev/rules.d</file>) in the documentation directory
+    that might help with this problem (you will need to adjust for
+    your own devices IDs), or you can disable modem-manager in the
+    network manager configuration.</p></item>
+    </list>
+    <p>
+      When you select <gui>auto</gui> or <gui>bluetooth</gui> as a
+      connection, <app>gtk-g-rays2</app> will attempt to auto-discover
+      the BT GPS. If a GRays-2 GPS is discovered,
+      <app>gtk-g-rays2</app> saves the BT address under the key
+      <code>btaddr=</code> in the configuration file. The next time
+      you use auto or bluetooth as the connection type, this BT
+      address will be used, greatly speeding up the connection. If you
+      were to use different GRays-2 GPS, then it would be necessary to
+      manually delete this key in order to permit auto-discovery
+      again.
+    </p>
+    <section id="BT Fallback">
+      <title>Bluetooth manual instantiation</title>
+      <p>It is possible to use Bluetooth without auto-detection, in the
+      same manner as was implemented for <app>gtk-g-rays2</app> version
+      1.x, but with manual creation and tear down of the Bluetooth
+      serial device.
+      </p>
+      <list>
+	<item><p>Create a <file>/dev/rfcomm0</file> device, for example
+	using the <app>g-rays2-rfcomm.sh</app> script shipped with
+	earlier versions of <app>gtk-g-rays2</app>;</p></item>
+	<item><p>Start <app>gtk-g-rays2</app> and set the device
+	manually to  <file>/dev/rfcomm0</file> and connect to
+	it;</p></item>
+	<item><p>When you exit <app>gtk-g-rays2</app>, remove the
+	Bluetooth device.</p></item>
+      </list>
+      <code>
+	g-rays2-rfcomm.sh start
+	gtk-g-grays2
+	g-rays2-rfcomm.sh stop
+      </code>
+    </section>
+  </section>
+</page>

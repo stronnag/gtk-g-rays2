@@ -1,0 +1,46 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="about">
+
+  <info>
+    <link type="seealso" xref="index"/>
+    <desc>
+      Author and copyright information for <app>gtk-g-rays2</app>.
+    </desc>
+    <credit type="author">
+      <name>Jonathan Hudson</name>
+      <email>jh+gps@daria.co.uk</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+  </info>
+
+    <title>About <app>gtk-g-rays2</app></title>
+
+    <p> <app>gtk-g-ray2</app> was written by <link
+    href="mailto:jh+gps@daria.co.uk">Jonathan Hudson</link>.  To find
+    more information about <app>gtk-g-ray2</app>, please visit the
+    <link href="http://www.daria.co.uk/gps/"
+    type="http"><app>gtk-g-ray2</app> Web page</link>.
+    </p>
+    <p>
+      An initial Maemo port was contributed by <link
+      href="mailto:tilman.vogel%40web.de">Tilman
+      Vogel</link>. <app>gtk-g-rays2</app> v1.x after 1.06 builds for
+      desktop Linux (GTK+-2) and Maemo, <app>gtk-g-rays2</app> 2.x is
+      desktop Linux (GTK+-3) only.
+    </p>
+    <p>
+      To report a bug or make a suggestion regarding this application or
+      this manual, please contact the author.
+    </p>
+
+    <p> This program is distributed under the terms of the GNU
+      General Public license as published by the Free Software
+      Foundation; either version 2 of the License, or (at your option)
+      any later version. A copy of this license can be found at this
+      <link href="ghelp:gpl" type="help">link</link>, or in the file
+      COPYING included with the source code of this program. </p>
+</page>

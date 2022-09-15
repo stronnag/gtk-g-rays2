@@ -1,0 +1,677 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:str="http://exslt.org/strings">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>gtk-g-rays2 GPS manager</title>
+<style type="text/css">
+html { height: 100%; }
+body {
+  margin: 0px;
+  background-color: #f9f9f6;
+  padding: 12px;
+  min-height: 100%;
+  direction: ltr;
+}
+ul, ol, dl, dd { margin: 0; }
+div, pre, p, li, dt { margin: 1em 0 0 0; padding: 0; }
+.first-child { margin-top: 0; }
+li.condensed { margin-top: 0.2em; }
+a {
+  text-decoration: none;
+  color: #1f609f;
+}
+a:visited {
+  color: #9f1f6f;
+}
+a:hover { text-decoration: underline; }
+
+div.headbar {
+  margin: 0;
+  max-width: 48em;
+}
+div.footbar {
+  margin: 0;
+  max-width: 48em;
+}
+div.body {
+  margin: 0;
+  padding: 1em;
+  max-width: 48em;
+  min-height: 20em;
+  -moz-border-radius: 6px;
+  border: solid 1px #e0e0df;
+  background-color: #ffffff;
+}
+div.navbar {
+  margin: 0;
+  float: right;
+}
+a.navbar-prev::before {
+  content: '◀  ';
+  color: #3f3f3f;
+}
+a.navbar-next::after {
+  content: '  ▶';
+  color: #3f3f3f;
+}
+div.copyrights {
+  text-align: center;
+  color: #3f3f3f;
+}
+div.section { margin-top: 2.4em; clear: both; }
+div.section div.section {
+  margin-top: 1.72em;
+  margin-left: 1.72em;
+}
+div.section div.section div.section { margin-top: 1.44em; }
+div.header {
+  margin: 0;
+  color: #3f3f3f;
+  border-bottom: solid 1px #e0e0df;
+}
+h1 {
+  font-size: 1.44em;
+  margin: 0;
+}
+h2, h3, h4, h5, h6, h7 {
+  font-size: 1.2em;
+  margin: 0;
+}
+table { border-collapse: collapse; }
+
+div.autolinks ul { margin: 0; padding: 0; }
+div.autolinks div.title { margin: 1em 0 0 1em; }
+div.autolinks div.title span {
+  border-bottom: solid 1px #e0e0df;
+}
+li.autolink { margin: 0.5em 0 0 0; padding: 0 0 0 1em; list-style-type: none; }
+
+div.linktrails {
+  margin: 0;
+}
+div.linktrail {
+  font-size: 0.83em;
+  margin: 0 1px 0.2em 1px;
+  padding-left: 1.2em;
+  color: #3f3f3f;
+}
+
+table.twocolumn { width: 100%; }
+td.twocolumnleft { width: 48%; vertical-align: top; padding: 0; margin: 0; }
+td.twocolumnright {
+  width: 52%; vertical-align: top;
+  margin: 0; padding: 0;
+  padding-left: 1em;
+}
+
+div.linkdiv div.title {
+  font-size: 1em;
+  color: inherit;
+}
+div.linkdiv {
+  margin: 0;
+  padding: 0.5em;
+  -moz-border-radius: 6px;
+  border: solid 1px #ffffff;
+}
+div.linkdiv:hover {
+  border-color: #c0c9ff;
+  background-color: #f0f9ff;
+}
+div.linkdivsep {
+  margin: 0.5em;
+  list-style-type: none;
+  max-width: 24em;
+  border-bottom: solid 1px #e0e0df;
+}
+
+div.title {
+  margin: 0 0 0.2em 0;
+  font-weight: bold;
+  color: #3f3f3f;
+}
+div.desc { margin: 0 0 0.2em 0; }
+div.desc-listing, div.desc-synopsis { font-style: italic; }
+div.desc-figure { margin: 0.2em 0 0 0; }
+pre.code {
+  /* FIXME: In RTL locales, we really want to align this left, but the watermark
+   * we have is designed to fit in the top right corner.  Either we need a new
+   * watermark, or we need a separate RTL version.
+   */
+  background: url('watermark-code.png') no-repeat top right;
+  border: solid 2px #e0e0df;
+  padding: 0.5em 1em 0.5em 1em;
+}
+div.example {
+  border-left: solid 4px #e0e0df;
+  padding-left: 1em;
+}
+div.figure {
+  margin-left: 1.72em;
+  padding: 4px;
+  color: #3f3f3f;
+  border: solid 1px #e0e0df;
+  background-color: #f9f9f6;
+}
+div.figure-contents {
+  margin: 0;
+  padding: 0.5em 1em 0.5em 1em;
+  text-align: center;
+  color: #000000;
+  border: solid 1px #e0e0df;
+  background-color: #ffffff;
+}
+div.listing-contents { margin: 0; padding: 0; }
+div.note {
+  padding: 0.5em 6px 0.5em 6px;
+  border-top: solid 1px #ffc0c0;
+  border-bottom: solid 1px #ffc0c0;
+  background-color: #fffff0;
+}
+div.note-inner {
+  margin: 0;
+  padding-left: 60px;
+  background-position: left top;
+  background-repeat: no-repeat;
+  min-height: 48px;
+  background-image: url("admon-note.png");
+}
+div.note-advanced div.note-inner {  }
+div.note-bug div.note-inner { background-image: url("admon-bug.png"); }
+div.note-important div.note-inner { background-image: url("admon-important.png"); }
+div.note-tip div.note-inner { background-image: url("admon-tip.png"); }
+div.note-warning div.note-inner { background-image: url("admon-warning.png"); }
+div.note-contents { margin: 0; padding: 0; }
+div.quote-inner {
+  margin: 0;
+  background-image: url('watermark-blockquote-201C.png');
+  background-repeat: no-repeat;
+  background-position: top left;
+  padding: 0.5em;
+  padding-left: 4em;
+}
+div.title-quote {
+  margin-left: 4em;
+}
+blockquote { margin: 0; padding: 0; }
+div.cite-comment {
+  margin-top: 0.5em;
+  color: #3f3f3f;
+}
+div.cite-quote {
+  margin-top: 0.5em;
+  color: #3f3f3f;
+}
+div.cite-quote::before {
+  
+  content: '― ';
+}
+pre.screen {
+  padding: 0.5em 1em 0.5em 1em;
+  background-color: #f9f9f6;
+  border: solid 2px #e0e0df;
+}
+div.synopsis-contents {
+  margin: 0;
+  padding: 0.5em 1em 0.5em 1em;
+  border-top: solid 2px;
+  border-bottom: solid 2px;
+  border-color: #c0c9ff;
+  background-color: #f9f9f6;
+}
+div.synopsis pre.code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+div.list-contents { margin: 0; padding: 0; }
+div.title-list { margin-bottom: 0.5em; }
+ol.list, ul.list { margin: 0; padding: 0; }
+li.item-list { margin-left: 1.44em; }
+
+div.steps-contents {
+  margin: 0;
+  padding: 0.5em 1em 0.5em 1em;
+  border-top: solid 2px;
+  border-bottom: solid 2px;
+  border-color: #c0c9ff;
+  background-color: #fffff0;
+}
+div.steps-contents div.steps-contents {
+  padding: 0;
+  border: none;
+  background-color: none;
+}
+ol.steps, ul.steps { margin: 0; padding: 0; }
+li.item-steps { margin-left: 1.44em; }
+
+div.terms-contents { margin: 0; }
+dt.item-next { margin-top: 0; }
+dd.item-terms {
+  margin-top: 0.2em;
+  margin-left: 1.44em;
+}
+
+ul.tree {
+  margin: 0; padding: 0;
+  list-style-type: none;
+}
+li.item-tree { margin: 0; padding: 0; }
+div.item-tree { margin: 0; padding: 0; }
+ul.tree ul.tree { margin-left: 1.44em; }
+div.tree-lines ul.tree { margin-left: 0; }
+
+table.table {
+  border-collapse: collapse;
+  border-color: #555753;
+  border-width: 1px;
+}
+table.table td {
+  padding: 0.1em 0.5em 0.1em 0.5em;
+  border-color: #888a85;
+  border-width: 1px;
+  vertical-align: top;
+}
+
+span.app { font-style: italic; }
+span.cmd {
+  font-family: monospace;
+  background-color: #f9f9f6;
+  padding: 0 0.2em 0 0.2em;
+}
+span.code { font-family: monospace; }
+span.em { font-style: italic; }
+span.email { color: red; }
+span.file { font-family: monospace; }
+span.gui, span.guiseq { color: #3f3f3f; }
+span.input { font-family: monospace; }
+span.hi {
+  background-color: #fffff0;
+}
+span.key {
+  color: #3f3f3f;
+  border: solid 1px #e0e0df;
+  padding: 0 0.2em 0 0.2em;
+}
+span.keyseq {
+  color: #3f3f3f;
+}
+span.output { font-family: monospace; }
+pre.screen span.output {
+  color: #3f3f3f;
+}
+pre.screen span.output-error {
+
+  color: #ff0000;
+}
+pre.screen span.output-prompt { font-weight: bold; }
+span.sys { font-family: monospace; }
+span.var { font-style: italic; }
+
+div.version {
+  position: absolute;
+  right: 12px;
+  opacity: 0.2;
+  margin-top: -1em;
+  padding: 0.5em 1em 0.5em 1em;
+  max-width: 24em;
+  -moz-border-radius: 6px;
+  border: solid 1px #e0e0df;
+  background-color: #fffff0;
+}
+div.version:hover { opacity: 0.8; }
+div.version p.version { margin-top: 0.2em; }
+div.linkdiv div.title span.status {
+  font-size: 0.83em;
+  font-weight: normal;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+  color: #3f3f3f;
+  border: solid 1px #ffc0c0;
+}
+div.linkdiv div.title span.status-stub { background-color: #fff0f0; }
+div.linkdiv div.title span.status-draft { background-color: #fff0f0; }
+div.linkdiv div.title span.status-incomplete { background-color: #fff0f0; }
+div.linkdiv div.title span.status-review { background-color: #fffff0; }
+div.linkdiv div.desc {
+  margin-top: 0.2em;
+  color: #3f3f3f;
+}
+div.comment {
+  padding: 0.5em;
+  border: solid 2px #ffc0c0;
+  background-color: #fff0f0;
+}
+div.comment div.comment {
+  margin: 1em 1em 0 1em;
+}
+div.comment div.cite {
+  margin: 0 0 0.5em 0;
+  font-style: italic;
+}
+</style>
+</head>
+<body class="">
+<div class="headbar"></div>
+<div class="body">
+<div class="header"><h1 class="title">Gtk-G-Rays2 Manual</h1></div>
+<div class="contents"><div class="topiclinks"></div></div>
+<div class="section" id="into">
+<div class="header"><h2 class="title">Introduction</h2></div>
+<div class="contents">
+<div class="quote first-child"><div class="quote-inner">
+<blockquote class="quote-contents"><p class="p first-child">
+	Knowing how things work is the basis for appreciation, and is
+	thus a source of civilised delight.
+      </p></blockquote>
+<div class="cite cite-quote">William Safire</div>
+</div></div>
+<p class="p">
+	<span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> is an application to configure and
+	manage the Wintec WBT 201 Bluetooth GPS.</p>
+<p class="p">The Wintec WBT
+	201 is an impressive, Bluetooth and USB, logging GPS.  It can
+	be used with <span xmlns:e="http://projectmallard.org/experimental/" class=" link"><a href="http://www.gpsbabel.org/" title="http://www.gpsbabel.org/">gpsbabel</a></span> versions later
+	than 1.33, including 1.34 pre-release CVS versions.</p>
+<p class="p">In order to access the WBT 201 configuration settings, the
+	manufacturer provides a closed source application, only
+	available on Microsoft operating
+	systems. <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> attempts to rectify this
+	situation by providing a portable, open source configuration
+	tool that can work on multiple operating systems.
+	<span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> provides as much of the functionality
+	of the close source application as is possible from the
+	available information on the WBT-201 protocol.  </p>
+<p class="p"><span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> is licensed under the GNU Public
+	Licence v2 or any later version of your choice.
+	<span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> is (c) Jonathan R Hudson <span xmlns:e="http://projectmallard.org/experimental/" class=" sys"><a href="mailto:jh+gps@daria.co.uk" title="Send email to ‘jh+gps@daria.co.uk’.">jh+gps@daria.co.uk</a></span>
+  </p>
+<div class="topiclinks"></div>
+</div>
+</div>
+<div class="section" id="install">
+<div class="header"><h2 class="title">Installation</h2></div>
+<div class="contents">
+<p class="p first-child"><span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> is provided as a source
+    code archive. It requires the GTK2+ toolkit with the cairo graphics
+    library. If you have a typical open source development environment
+    installed, than installation should be as simple as:</p>
+<pre class="code">$ ./configure [--prefix=/usr]
+    $ make
+    $ sudo make install</pre>
+<p class="p">
+      On first launch, <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> will create
+      a default configuration file,
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" file">$HOME/.config/g-rays2/g-rays2rc</span>, which is
+      populated with default values that may be edited from the
+      Preferences menu option.
+    </p>
+<div class="topiclinks"></div>
+</div>
+</div>
+<div class="section" id="usage">
+<div class="header"><h2 class="title">Usage</h2></div>
+<div class="contents">
+<div class="quote first-child"><div class="quote-inner">
+<blockquote class="quote-contents"><p class="p first-child">
+	How should I know if it works?  That's what beta testers are for.
+	I only coded it.
+      </p></blockquote>
+<div class="cite cite-quote">Linus Torvalds</div>
+</div></div>
+<p class="p">The application is launched as</p>
+<pre class="code">$ gtk-g-rays2</pre>
+<p class="p">It may be run from a terminal, or
+    from a menu or other graphical user interface launcher.  A
+    suitable icon for a graphical launcher may be found in
+    <span xmlns:e="http://projectmallard.org/experimental/" class=" file">$prefix/share/gtk-g-rays2/</span> ($prefix is /usr/local
+    unless changed at build time).
+  </p>
+<div class="topiclinks"></div>
+</div>
+<div class="section" id="settingstab">
+<div class="header"><h3 class="title">Settings Tab</h3></div>
+<div class="contents">
+<p class="p first-child">On start up, the main window is
+    displayed, showing the settings tab:
+  </p>
+<div class="media media-image"><img src="grays1.png" alt="Settings Tab"></div>
+<p class="p">
+    At this stage, the useful controls are the <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Serial Port</span> 
+    and <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Connect</span> items. The Serial Port control lists the 
+    serial devices available, by default <span xmlns:e="http://projectmallard.org/experimental/" class=" file">auto</span>, 
+    <span xmlns:e="http://projectmallard.org/experimental/" class=" file">bluetooth</span> and <span xmlns:e="http://projectmallard.org/experimental/" class=" file">/dev/ttyUSB0</span>; 
+    however this may be changed from the <span xmlns:e="http://projectmallard.org/experimental/" class=" guiseq"><span class=" gui">Edit</span> ▸ <span class=" gui">Preferences</span></span> menu item.
+  </p>
+<p class="p">If the selected device is named <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">auto</span>, then the application
+  will attempt to discover first a USB and then a bluetooth
+  connection.
+  </p>
+<p class="p">A device named <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">bluetooth</span> will invoke Bluetooth
+  auto-discovery.
+  </p>
+<p class="p">Once a suitable device is selected from the Serial Port
+  combo-box, and the user clicks on the <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Connect button</span>,
+  <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> will attempt to connect to the device and
+  read the settings. If the connection is successful, the connection
+  indicator will show the new state, and the settings will be read
+  from the device and displayed.
+  </p>
+<div class="media media-image"><img src="grays2.png" alt="Settings Tab, connected"></div>
+<p class="p">
+    Items that are "greyed out" may not be changed; on the right hand
+    side, the valid items will depend on the <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Log Type</span>
+    selected. The different log types and the parameters pertinent to
+    each one are described in the documentation of the proprietary
+    Wintec application. Please see this document for an explanation
+    of the fields.
+  </p>
+<p class="p">The buttons on this tab perform the following functions:</p>
+<div class="terms"><div class="terms-contents"><dl class="terms">
+<dt class="item-terms first-child">
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Apply</span>
+</dt>
+<dd class="item-terms"><p class="p first-child">Clicking Apply will apply the settings to the device;</p></dd>
+<dt class="item-terms">
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Clear Log</span>
+</dt>
+<dd class="item-terms"><p class="p first-child">Clear Log will clear any logged (stored) track and way-point
+      data from the device;</p></dd>
+<dt class="item-terms">
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Reset Defaults</span>
+</dt>
+<dd class="item-terms"><p class="p first-child">Reset Defaults will restore the factory defaults (or at least
+      the initial settings obtained from the author's device);</p></dd>
+<dt class="item-terms"><span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Quit</span></dt>
+<dd class="item-terms"><p class="p first-child">Quit closes the application, and saves the current preferences.</p></dd>
+</dl></div></div>
+<div class="topiclinks"></div>
+</div>
+</div>
+<div class="section" id="datatab">
+<div class="header"><h3 class="title">Data Tab</h3></div>
+<div class="contents">
+<p class="p first-child">The data tab switches the device from settings into normal
+    usage mode and displays GPS data and satellite
+    information. Although the fields cannot be edited, they are
+    "activated", so data may be copied with the mouse.
+    </p>
+<div class="media media-image"><img src="grays0.png" alt="Data Tab"></div>
+<p class="p">As with the Setting tab, Quit closes the application, and saves the current preferences.
+    </p>
+<div class="topiclinks"></div>
+</div>
+</div>
+</div>
+<div class="section" id="menus">
+<div class="header"><h2 class="title">Menus</h2></div>
+<div class="contents">
+<div class="quote first-child"><div class="quote-inner">
+<blockquote class="quote-contents"><p class="p first-child"> 
+	Almost anything derogatory you could say about today's software design
+	would be accurate.
+      </p></blockquote>
+<div class="cite cite-quote">K.E. Iverson</div>
+</div></div>
+<div class="topiclinks"></div>
+</div>
+<div class="section" id="filemenu">
+<div class="header"><h3 class="title">File Menu</h3></div>
+<div class="contents">
+<p class="p first-child">The File Menu offers the following options:</p>
+<div class="media media-image"><img src="grays-files.png" alt="Files Menu"></div>
+<div class="terms"><div class="terms-contents"><dl class="terms">
+<dt class="item-terms first-child"><span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Save Log as GPX</span></dt>
+<dd class="item-terms">
+<p class="p first-child">Saves the current device log files as a GPX
+	  file. GPSbabel is required for this, v1.34 or later (including
+	  pre-releases of 2007-07-03 and later). The standard GTK2+ file dialogue
+	  is displayed for the user to enter a file name, with the extra
+	  options.
+	  </p>
+<div class="media media-image"><img src="grays4.png" alt="Files Menu"></div>
+<div class="list"><div class="list-contents"><ul class="list">
+<li class="item-list first-child"><p class="p first-child">Delete from Device. If checked, after saving, the log
+	      file is deleted from the device.</p></li>
+<li class="item-list"><p class="p first-child">Save Tracks. Track points are saved in the GPX. This
+	      is the default.</p></li>
+<li class="item-list"><p class="p first-child">Save Waypoints. Waypoints (i.e. from pressing the right
+	      button on the device) are saved. This is the default.
+	      </p></li>
+</ul></div></div>
+</dd>
+<dt class="item-terms"><span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Save Log as KML</span></dt>
+<dd class="item-terms"><p class="p first-child">
+	    Saves the current device log files as a KML file. GPSbabel
+	    is required for this, v1.34 or later (including pre-releases
+	    of 2007-07-03 and later).  The standard GTK2+ file
+	    dialogue is displayed for the user to enter a file name,
+	    with the same options as for GPX.
+	  </p></dd>
+<dt class="item-terms"><span xmlns:e="http://projectmallard.org/experimental/" class=" gui">Save raw NMEA</span></dt>
+<dd class="item-terms">
+<p class="p first-child">
+	    If this option is selected, raw NMEA (GPS data), when the
+	    Data Tab is shown, will be saved to a file.  Data
+	    continues to be logged until the check box on the menu
+	    item is cleared again.
+	  </p>
+<div class="media media-image"><img src="grays-files1.png" alt="Files Menu"></div>
+</dd>
+</dl></div></div>
+<div class="topiclinks"></div>
+</div>
+</div>
+<div class="section" id="helpmenu">
+<div class="header"><h3 class="title">Help Menu</h3></div>
+<div class="contents">
+<p class="p first-child">The About option displays author, version and copyright
+      information.</p>
+<div class="media media-image"><img src="grays99.png" alt="Preferences"></div>
+<div class="topiclinks"></div>
+</div>
+</div>
+</div>
+<div class="section" id="Automagic">
+<div class="header"><h2 class="title">Automatic Bluetooth instantiation</h2></div>
+<div class="contents">
+<div class="quote first-child"><div class="quote-inner">
+<blockquote class="quote-contents"><p class="p first-child"> 
+	The central enemy of reliability is complexity.
+      </p></blockquote>
+<div class="cite cite-quote">Geer et al.</div>
+</div></div>
+<p class="p">From version 2.00, Bluetooth devices are
+    auto-discovered. Let's see how reliable that is.
+    </p>
+<p class="p">For version 2.04
+    and later, we eschew the Bluez API (shall we change the API with
+    every release?, shall we fail to provide any sort of usable
+    documentation?</p>
+<p class="p"> Instead, from 2.04, <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> uses the low level
+    libbluetooth API. This should work across all distributions,
+    regardless of Bluez version. 
+    </p>
+<p class="p">
+      The main reason for migrating to a BT auto-discovery
+      model are:
+    </p>
+<div class="list"><div class="list-contents"><ul class="list">
+<li class="item-list first-child"><p class="p first-child">Remove the need for a SUID / sudo script to instigate
+	the Bluetooth serial connection;</p></li>
+<li class="item-list"><p class="p first-child">Allow for auto-detection and configuration of the
+	first available interface (USB or Bluetooth, in that
+	order).</p></li>
+</ul></div></div>
+<p class="p">There are a number of things you need to be aware using the
+    2.0x Bluetooth auto-detection implementation:</p>
+<div class="list"><div class="list-contents"><ul class="list">
+<li class="item-list first-child"><p class="p first-child">The bluetooth service must be running;</p></li>
+<li class="item-list"><p class="p first-child">The G-Rays2 device must be paired. Changing the BT
+      adaptor probably means it needs re-pairing.
+    </p></li>
+<li class="item-list"><p class="p first-child">It is also possible that some application (perhaps
+    <span xmlns:e="http://projectmallard.org/experimental/" class=" app">modem-manager</span>) has grabbed the BT (or USB) device, and
+    is unhelpfully probing it in case it happens to be a 3G
+    modem. There are a couple of sample udev rules (install in
+    <span xmlns:e="http://projectmallard.org/experimental/" class=" file">/etc/udev/rules.d</span>) in the documentation directory
+    that might help with this problem (you will need to adjust for
+    your own devices IDs), or you can disable modem-manager in the
+    network manager configuration.</p></li>
+</ul></div></div>
+<p class="p">
+      When you select <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">auto</span> or <span xmlns:e="http://projectmallard.org/experimental/" class=" gui">bluetooth</span> as a
+      connection, <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> will attempt to auto-discover
+      the BT GPS. If a GRays-2 GPS is discovered,
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> saves the BT address under the key
+      <span xmlns:e="http://projectmallard.org/experimental/" class=" code">btaddr=</span> in the configuration file. The next time
+      you use auto or bluetooth as the connection type, this BT
+      address will be used, greatly speeding up the connection. If you
+      were to use different GRays-2 GPS, then it would be necessary to
+      manually delete this key in order to permit auto-discovery
+      again.
+    </p>
+<div class="topiclinks"></div>
+</div>
+<div class="section" id="BT Fallback">
+<div class="header"><h3 class="title">Bluetooth manual instantiation</h3></div>
+<div class="contents">
+<p class="p first-child">It is possible to use Bluetooth without auto-detection, in the
+      same manner as was implemented for <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> version
+      1.x, but with manual creation and tear down of the Bluetooth
+      serial device.
+      </p>
+<div class="list"><div class="list-contents"><ul class="list">
+<li class="item-list first-child"><p class="p first-child">Create a <span xmlns:e="http://projectmallard.org/experimental/" class=" file">/dev/rfcomm0</span> device, for example
+	using the <span xmlns:e="http://projectmallard.org/experimental/" class=" app">g-rays2-rfcomm.sh</span> script shipped with
+	earlier versions of <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span>;</p></li>
+<li class="item-list"><p class="p first-child">Start <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span> and set the device
+	manually to  <span xmlns:e="http://projectmallard.org/experimental/" class=" file">/dev/rfcomm0</span> and connect to
+	it;</p></li>
+<li class="item-list"><p class="p first-child">When you exit <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span>, remove the
+	Bluetooth device.</p></li>
+</ul></div></div>
+<pre class="code">	g-rays2-rfcomm.sh start
+	gtk-g-grays2
+	g-rays2-rfcomm.sh stop
+      </pre>
+<div class="topiclinks"></div>
+</div>
+</div>
+</div>
+<div class="section autolinkssection">
+<div class="header"><h2 class="title">Further Reading</h2></div>
+<div class="autolinks">
+<div class="title"><span>See Also</span></div>
+<ul><li class="autolink">
+<a href="about.html">About <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span></a><span class="desc"> — 
+      Author and copyright information for <span xmlns:e="http://projectmallard.org/experimental/" class=" app">gtk-g-rays2</span>.
+    </span>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="footbar"><div class="copyrights"></div></div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+Overview
+~~~~~~~~
+
+This is gtk-g-ray2, a tool to access the Wintec WBT-201 from free
+operating systems (but you can use it on proprietary ones too if you
+like).
+
+gtk-rays-2
+~~~~~~~~~~
+
+There is a "C" version (current) and an older Ruby version, which is
+useful for experimentation.
+
+To build the 'C' version:
+
+$ ./configure [--prefix=/usr]
+$ make
+$ sudo make install
+
+By default, device names of /dev/ttyUSB0 and /dev/rfcomm0 are
+offered. You can change the devices available by editing the file
+$HOME/.config/g-rays2/g-rays2rc
+
+(gtk-rays-2 creates the file on first run if it does not exist).
+
+e.g.
+
+$ cat /home/jrh/.config/g-rays2/g-rays2rc
+[g-rays2]
+devices = /dev/ttyUSB0;/dev/rfcomm0
+
+After the key "devices = " there is a semi-colon (;) separated list of
+possible device names.
+
+e.g.
+devices = /dev/ttyUSB0;/dev/ttyUSB1;/dev/ttyUSB2;/dev/rfcomm0;/dev/rfcomm1
+
+The 'C' version is almost fully functional, however in order to save log
+files using gpsbabel, it is necessary (as of 2007-05-19) to:
+
+* Use the CVS version;
+
+If the CVS version is earlier than 2007-07-03, then you need to:
+
+* Apply a patch to get it to use standard input as the serial device.
+
+The patch file is included in this archive as docs/gpsbabel-fd0_as_serial.patch
+
+To apply:
+
+$ cd gpsbabel # Source directory
+$ # gtk-g-rays2 unpacked in /tmp/
+$ patch < /tmp/gtk-g-rays2-0.4/wbt-201/docs/gpsbabel-fd0_as_serial.patch
+$ make
+$ # Now install on path
+
+ruby 
+~~~~
+
+For the ruby version (in the ruby directory).
+
+Usage: wbt201.rb [options]
+    -d, --dump-gps                   false
+    -v, --verbose                    false
+    -h, --help                       Show this message
+
+Please be advised that wbt201.glade must be in the working directory
+for the ruby version. This is feature.
+
+See www/index.html or http://www.daria.co.uk/gps/ for more
+details.
+
+(c) 2007-2013 Jonathan Hudson <jh+gps@daria.co.uk>

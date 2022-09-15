@@ -1,0 +1,22 @@
+
+ACTION!="add|change", GOTO="mm_g_rays_device_blacklist_end"
+SUBSYSTEM!="usb", GOTO="mm_g_rays_device_blacklist_end"
+ENV{DEVTYPE}!="usb_device",  GOTO="mm_g_rays_device_blacklist_end"
+
+# G-Rays2 USB Interface 10c4:ea60
+ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+# JH's Bluetooth device # 0a12:0001 (Cambridge Silicon Radio dongle; on piglet)
+ATTRS{idVendor}=="0a12", ATTRS{idProduct}=="0001", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+# JH's Bluetooth device # 0a5c:2101 (Broadcom Corp. BCM2045; on eeyore)
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="2101", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+# JH's Bluetooth device # 0b05:b700 (ASUSTek / Broadcom; on woozle & jagular)
+ATTRS{idVendor}=="0b05", ATTRS{idProduct}=="b700", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+LABEL="mm_g_rays_device_blacklist_end"
+
+
+
+

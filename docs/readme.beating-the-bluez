@@ -1,0 +1,133 @@
+Debugging the Bluez
+===================
+
+The DBus / Bluetooth (bluez) provides a number of advantages, not
+least of which are the removal of a dependency on a privileged helper
+script (g-rays2-rfcomm.sh), it does also add some annoying issues of
+non-root access to the bluetooth device, which is not helped by the
+unfortunate state of the bluez documentation and in particular, the
+lack of any real examples of best practice.
+
+This note describes some tools and techniques that the author has
+found useful in debugging BT connections.
+
+0 Daemon
+~~~~~~~~
+
+In order to use the DBus / bluez sub-system, it is necessary for the
+bluetoothd daemon to be running. This should be enabled by the boot
+process, or can be started manually as root (e.g):
+
+$ sudo systemctl start bluetooth
+
+or
+
+$ sudo service bluetooth start
+
+
+1 Permissions
+~~~~~~~~~~~~~
+
+In order to have read-write access to the BT device, the user must be
+a member of an OS specific group, e.g.:
+
+* Arch: uucp
+* Ubuntu : dialout
+
+2 Contention
+~~~~~~~~~~~~
+
+On a modern Linux desktop with Network Manager, it is likely that
+modem-manager is installed to manage 3G (mobile phone)
+networking. Whilst this might seem like a good idea, its
+implementation is somewhat rude in that modem-manager assumes it has
+carte-blanche to probe any serial device on the system. This probing
+can prevent other applications (such as gtk-g-rays2) from being able
+to access the device or destroys their previously established
+connections.
+
+Whilst modem-manager has a DBus API, there does not appear to be a way
+for another application to tell modem-manager to leave a device alone,
+other than black-listing the device using udev rules (which is a
+complexity that many users might prefer to avoid).
+
+2.1 Udev rules
+~~~~~~~~~~~~~~
+
+The gtk-g-rays2 doc/ directory contains a couple of sample udev rules
+to prevent modem-manager from molesting devices that it has no need to
+disrupt.
+
+90-mm-g-rays2-blacklist.rules : Sample rules for USB (USB BT adaptors).
+
+91-mm-g-rays2-blacklist.rules : Sample generic rules.
+
+In the first case, it will be necessary for the user to modify the
+file to change the device IDs to match their equipment. The lsusb and
+lshw scripts can help identify device IDs.
+
+In either case, using these scripts will prevent the base device
+(i.e. the BT adaptor) being used for BT mobile phone tethering. This
+is an unfortunate side affect, and can only be fixed by a more
+responsible and capable modem-manager API.
+
+3 Using bluez tools to identify and (re)pair devices
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bluez tools (Arch (AUR) and Ubuntu have packages, or build from source
+<http://code.google.com/p/bluez-tools/>). As this toolset uses DBus, it
+should provide results consistent with gtk-g-rays2 behaviour.
+
+3.1 Device Info
+~~~~~~~~~~~~~~~
+
+bt-device can be used to find a G-Rays2 device:
+
+$ bt-device -i G-Rays2
+[00:0B:0D:87:13:A2]
+  Name: G-Rays2
+  Alias: G-Rays2 [rw]
+  Address: 00:0B:0D:87:13:A2
+  Icon: undefined
+  Class: 0x1f00
+  Paired: 1
+  Trusted: 0 [rw]
+  Blocked: 0 [rw]
+  Connected: 1
+  UUIDs: [SerialPort]
+
+This shows the device address, that it has been paired, and that it's
+in use (connected).
+
+3.2 Pairing
+~~~~~~~~~~~
+
+bt-device can also be used to pair the device, or to release a
+pairing.
+
+# release the device (address from bt-device -i, above)
+$ bt-device -r 00:0B:0D:87:13:A2
+
+# Pair it again
+$ bt-device -c 00:0B:0D:87:13:A2
+
+Pairing will ask for a pairing code. Use 0000 (4 zeros).
+
+3.3 Serial Connection
+~~~~~~~~~~~~~~~~~~~~~
+
+bt-serial will test the serial connection to the BT device. The
+connection is ephemeral (in spite of there also being a disconnect
+option), as exiting the program dereferences  the DBus connection.
+
+# Connect to the G-Rays serial profile
+$ bt-serial -c G-Rays2 spp
+Created RFCOMM TTY device: /dev/rfcomm0
+
+4 Other
+~~~~~~~
+
+syslog / systemd journal is also useful for investigating contention
+(i.e. modem-manager bad behaviour).
+
+

@@ -1,0 +1,12 @@
+ACTION!="add|change", GOTO="mm_g_rays_tty_device_blacklist_end"
+SUBSYSTEM!="tty", GOTO="mm_g_rays_tty_device_blacklist_end"
+
+KERNEL=="rfcomm[0-9]*", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+DEVPATH=="/devices/virtual/tty/rfcomm*", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_CANDIDATE}="0"
+
+LABEL="mm_g_rays_tty_device_blacklist_end"
+
+
+
+
