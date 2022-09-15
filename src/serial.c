@@ -5,7 +5,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,10 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
 
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -57,7 +53,7 @@ static int get_ttyusb(char* devs)
     {
         char devname[32] = "/dev/ttyUSBx";
         int i;
-        
+
         for(i=0; i < 10; i++)
         {
             devname[11]='0'+i;
@@ -146,7 +142,7 @@ static void check_dev(char *dev)
 
 void setup_serial(int fd,int baudrate)
 {
-    struct termios tio;   
+    struct termios tio;
     memset (&tio, 0, sizeof(tio));
     cfmakeraw(&tio);
     tio.c_cflag |= (CS8 | CLOCAL | CREAD);
@@ -158,7 +154,7 @@ void setup_serial(int fd,int baudrate)
     switch (baudrate)
     {
         case 0:      baudrate=B57600; break;
-        case 4800:   baudrate=B4800; break;              
+        case 4800:   baudrate=B4800; break;
         case 9600:   baudrate=B9600; break;
         case 19200:  baudrate=B19200; break;
         case 38400:  baudrate=B38400; break;
@@ -245,7 +241,7 @@ void write_serial(char *msg, int len)
 
     if(len == -1)
         len = strlen(msg);
-    
+
     for( i = 0 ; i < 3 ; i++)
     {
         int n;
@@ -283,7 +279,7 @@ gboolean read_data(GIOChannel *source, GIOCondition condition, gpointer data)
     gchar buf[129];
     int len;
     int fd = g_io_channel_unix_get_fd(source);
-    
+
     if((condition &  G_IO_IN) == G_IO_IN)
     {
         do {
@@ -347,7 +343,7 @@ static gboolean sig_read_data(GIOChannel *source, GIOCondition condition, gpoint
     struct signalfd_siginfo fdsi;
 
     if(wbt->verbose) wbt_debug("SIG HANDLER\n");
-            
+
     s = read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
     if (fdsi.ssi_signo == SIGINT || fdsi.ssi_signo == SIGQUIT ||
         fdsi.ssi_signo == SIGTERM)
@@ -370,7 +366,7 @@ void setup_signals(void)
     int sfd;
 
     return;
-    
+
     sigemptyset(&mask);
     sigaddset(&mask, SIGINT);
     sigaddset(&mask, SIGQUIT);
@@ -387,4 +383,3 @@ void setup_signals(void)
     g_io_add_watch (gio, G_IO_IN, sig_read_data, NULL);
 #endif
 }
-

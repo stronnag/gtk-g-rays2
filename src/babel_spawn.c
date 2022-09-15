@@ -1,7 +1,3 @@
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
-
 #include <gtk/gtk.h>
 #include <assert.h>
 #include <stdio.h>
@@ -24,7 +20,7 @@ void childexit(int sig)
 
 gboolean ossilate(gpointer d)
 {
-    GtkWidget **w = (GtkWidget **)d;    
+    GtkWidget **w = (GtkWidget **)d;
     if(wbt->cpid == -1)
     {
         gtk_dialog_response (GTK_DIALOG(w[0]),GTK_RESPONSE_DELETE_EVENT);
@@ -46,7 +42,7 @@ int check_babel_version(void)
     {
         char bab[256];
         int digits[4];
-        
+
         while(fgets(bab,sizeof(bab), fp))
         {
             int n=sscanf(bab,"GPSBabel Version %d.%d.%d",
@@ -64,7 +60,7 @@ int check_babel_version(void)
         }
         pclose(fp);
     }
-    
+
     if(0 == babel_ok)
     {
         GtkWidget *dialog;
@@ -84,7 +80,7 @@ void childish_dialogue()
     GtkWidget *w[2];
     GtkWidget *q;
     int n;
-   
+
     w[0] = gtk_dialog_new_with_buttons (
         _("Gpsbabel download"),
         GTK_WINDOW(GTK_WIDGET (gtk_builder_get_object(
@@ -110,7 +106,7 @@ void childish_dialogue()
     }
     gtk_widget_destroy (w[1]);
     gtk_widget_destroy (w[0]);
-    
+
     fcntl(wbt->serfd, F_SETFL, fcntl(wbt->serfd,F_GETFL)|O_NONBLOCK);
     setup_serial(wbt->serfd, wbt->sspeed);
     wbt->tag = g_io_add_watch (wbt->gio, G_IO_IN|G_IO_HUP|G_IO_ERR|G_IO_NVAL, read_data, NULL);
@@ -129,8 +125,8 @@ static void babel_init()
         sigemptyset(&(sac.sa_mask));
         sac.sa_flags=0;
         sac.sa_handler=childexit;
-        sigaction(SIGCHLD, &sac, NULL);  
-        sigaction(SIGPIPE, &sac, NULL);  
+        sigaction(SIGCHLD, &sac, NULL);
+        sigaction(SIGPIPE, &sac, NULL);
         init = 1;
     }
 }
@@ -177,9 +173,9 @@ void babel_spawn(char *fn, char* type, int del)
         fputc('\n',stderr);
     }
 #endif
-    
+
     g_source_remove (wbt->tag);
-    
+
     switch((cpid = fork()))
     {
         case 0:

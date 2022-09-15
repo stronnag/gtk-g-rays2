@@ -5,7 +5,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,11 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
-
 #include <gtk/gtk.h>
 #include <assert.h>
 #include <stdio.h>
@@ -90,12 +85,10 @@ void set_menu_states(int s)
 G_MODULE_EXPORT gboolean on_draw_expose_event (GtkWidget *w, cairo_t *cr,
                                         gpointer user_data)
 {
-#ifdef HAVE_CAIRO
     graph_draw(w, cr);
-#endif
     return FALSE;
 }
- 
+
 G_MODULE_EXPORT void on_dev_type_changed (GtkWidget *w, gpointer user_data) {}
 
 G_MODULE_EXPORT void on_window1_delete_event (GtkWidget *w, gpointer user_data)
@@ -114,18 +107,18 @@ void start_serial_connect(void)
 {
     char *ser;
     GtkWidget *s,*q;
-    
+
     assert(NULL != (s = GTK_WIDGET (gtk_builder_get_object (
                                         wbt->builder,"conn_state1"))));
     assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object (
                                       wbt->builder,"conn_button1"))));
 
-    
+
     gtk_image_set_from_icon_name(GTK_IMAGE(s),"edit-redo", GTK_ICON_SIZE_MENU);
     gtk_button_set_label (GTK_BUTTON(q), "Trying ...");
     gtk_widget_set_sensitive(q,FALSE);
     ser = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wbt->devcombo));
-    gtk_main_iteration_do(FALSE);        
+    gtk_main_iteration_do(FALSE);
     init_serial(ser, wbt->sspeed);
     g_free(ser);
 }
@@ -153,7 +146,7 @@ void complete_serial_connect(void)
             message_box(msg,s);
         }
         gtk_button_set_label (GTK_BUTTON(q),"gtk-connect");
-        gtk_widget_set_sensitive(q, TRUE);            
+        gtk_widget_set_sensitive(q, TRUE);
         gtk_image_set_from_icon_name(GTK_IMAGE(s),"gtk-no",
                                      GTK_ICON_SIZE_MENU);
     }
@@ -166,7 +159,7 @@ void complete_serial_connect(void)
             wbt->lastdev = g_strdup(ser);
         }
         gtk_button_set_label (GTK_BUTTON(q),"gtk-disconnect");
-        gtk_widget_set_sensitive(q, TRUE);            
+        gtk_widget_set_sensitive(q, TRUE);
         gtk_image_set_from_icon_name(GTK_IMAGE(s),"gtk-yes",
                                      GTK_ICON_SIZE_MENU);
         gtk_main_iteration_do(FALSE);
@@ -192,7 +185,7 @@ G_MODULE_EXPORT void on_connect_clicked  (GtkWidget *w, gpointer user_data)
 
 G_MODULE_EXPORT void on_notebook_switch_page (GtkNotebook *w, void *page,
                               guint            page_num,
-                              gpointer         user_data)  
+                              gpointer         user_data)
 {
     switch_page(page_num);
 }
@@ -202,14 +195,14 @@ G_MODULE_EXPORT void on_clear_clicked (GtkWidget *w, gpointer user_data)
     flush_xmit_queue();
     wbt->serq = g_slist_append(wbt->serq,"5,6");
     wbt->serq = g_slist_append(wbt->serq,"5,1");
-    wbt->serq = g_slist_append(wbt->serq,"5,2");          
+    wbt->serq = g_slist_append(wbt->serq,"5,2");
     kick_actions();
 }
 
 G_MODULE_EXPORT void on_quit_clicked (GtkWidget *w, gpointer user_data)
 {
     const gchar *ltext = gtk_button_get_label(GTK_BUTTON(w));
-    
+
     if((0 == strcmp(ltext,"gtk-quit")) || (0 == strcmp(ltext,"Quit")))
     {
         serial_tidy();
@@ -222,7 +215,7 @@ G_MODULE_EXPORT void on_quit_clicked (GtkWidget *w, gpointer user_data)
         if(wbt->g)
         {
                 // FIXME
-            
+
         }
         else
         {
@@ -263,7 +256,7 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
     char **d;
     char *text0, *text1;
     int n;
-    
+
     assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object (
                                       wbt->builder,"dialog1"))));
     assert(NULL != (tv=GTK_WIDGET (gtk_builder_get_object (
@@ -275,8 +268,8 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
     assert(NULL != (ug=GTK_WIDGET (gtk_builder_get_object (
                                        wbt->builder,"use_dev_gps"))));
     assert(NULL != (sp=GTK_WIDGET (gtk_builder_get_object (
-                                       wbt->builder,"savedirbutton"))));    
-    
+                                       wbt->builder,"savedirbutton"))));
+
     if(wbt->lastdev)
     {
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(sb),1);
@@ -293,10 +286,10 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(ug),1);
     }
 
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(kb),wbt->trackmarks);    
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(kb),wbt->trackmarks);
     tb = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv));
     gtk_text_buffer_get_start_iter (tb, &is);
-    gtk_text_buffer_get_end_iter (tb, &ie); 
+    gtk_text_buffer_get_end_iter (tb, &ie);
     gtk_text_buffer_delete (tb, &is, &ie);
     for(d = wbt->devs; (d && *d); d++)
     {
@@ -310,7 +303,7 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
     text0 = gtk_text_buffer_get_text(tb,&is,&ie,TRUE);
     gtk_widget_show(q);
     n =  gtk_dialog_run(GTK_DIALOG(q));
-    gtk_widget_hide(q);    
+    gtk_widget_hide(q);
     if(n == GTK_RESPONSE_OK)
     {
         wbt->trackmarks = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(kb));
@@ -331,11 +324,11 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
             }
             else
             {
-                wbt->lastdev = g_strdup(resp);                
+                wbt->lastdev = g_strdup(resp);
             }
 
             resp = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(sp));
-            
+
             if(wbt->savepath)
             {
                 if(strcmp(wbt->savepath,resp) != 0)
@@ -346,9 +339,9 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
             }
             else
             {
-                wbt->savepath = g_strdup(resp);                
+                wbt->savepath = g_strdup(resp);
             }
-            
+
         }
         else
         {
@@ -356,7 +349,7 @@ G_MODULE_EXPORT void on_prefs_activate (GtkWidget *w, gpointer user_data)
             wbt->lastdev = NULL;
         }
         gtk_text_buffer_get_start_iter (tb, &is);
-        gtk_text_buffer_get_end_iter (tb, &ie); 
+        gtk_text_buffer_get_end_iter (tb, &ie);
         text1 = gtk_text_buffer_get_text(tb,&is,&ie,TRUE);
         if(strcmp(text0, text1))
         {
@@ -469,18 +462,9 @@ G_MODULE_EXPORT void on_about_close (GtkWidget *w, gpointer user_data)
 G_MODULE_EXPORT void on_show_help (GtkWidget *w, gpointer user_data)
 {
     char path[PATH_MAX];
-    char *p;
-    p = stpcpy(path, "yelp " HELPDIR "/gtkgrays2.");
-    strcpy(p,"page");
-    if(FALSE == g_spawn_command_line_async(path, NULL))
-    {
-        p = stpcpy(path, "xdg-open " HELPDIR "/gtkgrays2.");
-        strcpy(p, "html");
-        if(FALSE == g_spawn_command_line_async(path, NULL))
-        {
-            message_box("spawning help",
-                        "please see " HELPDIR "/gtkgrays2.html");
-        }
+    strcpy(path, "yelp " HELPDIR "/index.page");
+    if(FALSE == g_spawn_command_line_async(path, NULL)) {
+      message_box("spawning help",
+                  "please see " HELPDIR "/index.page");
     }
 }
-

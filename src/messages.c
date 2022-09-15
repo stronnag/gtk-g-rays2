@@ -1,7 +1,3 @@
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
-
 #include <gtk/gtk.h>
 #include <assert.h>
 #include <stdio.h>
@@ -13,9 +9,7 @@
 #include <time.h>
 #include "wbt201.h"
 
-#ifdef HAVE_LOCALE_H
-#  include <locale.h>
-#endif
+#include <locale.h>
 
 static char *wmodes[] = {
     /*0,1*/	NULL,NULL,
@@ -63,7 +57,7 @@ gboolean is_changed(char **name, short j, int old, int *pnv)
     const gchar *v;
     int nv;
     gboolean res = FALSE;
-    
+
     assert(NULL != (w=GTK_WIDGET (gtk_builder_get_object (
                                       wbt->builder, name[j]))));
     v= gtk_entry_get_text(GTK_ENTRY(w));
@@ -96,7 +90,7 @@ void do_set_actions(void)
             n++;
         }
     }
-    
+
     assert(NULL != (w=GTK_WIDGET (gtk_builder_get_object (
                                       wbt->builder, "logcombo1"))));
     if (wbt->cfg.wvvals[1] != (newval = gtk_combo_box_get_active(GTK_COMBO_BOX(w))))
@@ -122,7 +116,7 @@ void set_edit_state(int logval)
 {
     GtkWidget *w;
     short i,*logp;
-    
+
     for(i = 0; i < WMODES_LEN;i++)
     {
         if(wmodes[i])
@@ -146,8 +140,8 @@ static void nmea_display()
     static char* valid[] = {"Valid","Invalid"};
     static char* fix_qual[]={"","GPS","DGPS"};
     static char* gsa_mode1[]={"manaul","automatic"};
-    static char* gsa_mode2[]={NULL,"no","2D", "3D"};    
-    
+    static char* gsa_mode2[]={NULL,"no","2D", "3D"};
+
     GtkWidget *w;
     char tbuf[64];
     size_t n;
@@ -203,7 +197,7 @@ static double decpos(char *pos, char *sign, char *apos)
     double dd,dm,ds;
     char *fmt = NULL,*p=pos;
 
-    
+
     d =  (*p - '0')*10 + (*(p+1) - '0');
     p += 2;
     if (*sign == 'N' || *sign == 'S')
@@ -234,8 +228,8 @@ static void process_rmc(char *msg)
     char temp[32];
     int j;
     char *r,*s = msg;
-    
-    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)    
+
+    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)
     {
         int n = (int)(r-s);
         switch (j)
@@ -269,10 +263,10 @@ static void process_rmc(char *msg)
                 break;
             case 7:
                 wbt->gps.speed = strtod_nonlocale(s,NULL);
-                break;                
+                break;
             case 8:
                 wbt->gps.course = strtod_nonlocale(s,NULL);
-                break;                
+                break;
             case 9:
                 tm.tm_mday = (s[0]-'0')*10 + (s[1]-'0');
                 tm.tm_mon = (s[2]-'0')*10 + (s[3]-'0') -1;
@@ -296,8 +290,8 @@ static void process_gga(char *msg)
 {
     int j;
     char *r,*s = msg;
-    
-    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)    
+
+    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)
     {
         switch(j)
         {
@@ -332,8 +326,8 @@ static void process_gsa(char *msg)
 {
     int j;
     char *r,*s = msg;
-    
-    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)    
+
+    for(j =0; (r = strpbrk(s,",*\n")) && j < 32; j++)
     {
 //        int n = (int)(r-s);
         switch(j)
@@ -351,7 +345,7 @@ static void process_gsa(char *msg)
                 wbt->gps.pdop = strtod_nonlocale(s,NULL);
                 break;
             case 16:
-                wbt->gps.hdop = strtod_nonlocale(s,NULL);                                
+                wbt->gps.hdop = strtod_nonlocale(s,NULL);
                 break;
             case 17:
                 wbt->gps.vdop = strtod_nonlocale(s,NULL);
@@ -369,8 +363,8 @@ static void process_gsv(char *msg)
     char *r,*s = msg;
     int total=0, this=-1;
     short done = 0;
-    
-    for(j =0; !done && (r = strpbrk(s,",*\n")); j++)    
+
+    for(j =0; !done && (r = strpbrk(s,",*\n")); j++)
     {
         switch(j)
         {
@@ -490,7 +484,7 @@ static void process_nmea(gchar *s)
     static char mybuf[512];
     static int mybuflen;
     int slen;
-    
+
     if((p = index(s,'\r')))
     {
         *p = '\n';
@@ -499,7 +493,7 @@ static void process_nmea(gchar *s)
     {
         strcat(s,"\n");
     }
-    
+
     if(mybuflen + (slen = strlen(s)) + 2 > sizeof(mybuf) )
     {
         lc = gtk_text_buffer_get_line_count (wbt->tb);
@@ -519,7 +513,7 @@ static void process_nmea(gchar *s)
         strcpy(mybuf+mybuflen, s);
         mybuflen += slen;
     }
-    
+
     if(checks(s+1))
     {
         if(wbt->nmea_fp)
@@ -574,7 +568,7 @@ static void process_al(char *s)
                             switch(act)
                             {
                                 case 1:
-                                case 2:                                
+                                case 2:
                                     wbt->cfg.wsvals[act] = strtol(v,&z,10);
                                     *z = 0;
                                     w=GTK_WIDGET (gtk_builder_get_object (
@@ -697,7 +691,7 @@ static void process_al(char *s)
                 perform_login();
         }
     }
-    
+
 }
 
 void serial_process(char *s)

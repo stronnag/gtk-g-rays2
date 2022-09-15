@@ -1,6 +1,3 @@
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
 
 #include <gtk/gtk.h>
 #include <assert.h>
@@ -14,18 +11,17 @@
 #include <math.h>
 #include "wbt201.h"
 
-#ifdef HAVE_CAIRO
 void sat_set_colour(cairo_t *cr, sat_info_t * s)
 {
     if(s->in_use == 0)
     {
-        cairo_set_source_rgb(cr,1,1,1);        
+        cairo_set_source_rgb(cr,1,1,1);
     }
     else
     {
         if(s->snr == 0)
         {
-            cairo_set_source_rgb(cr,1,1,1);        
+            cairo_set_source_rgb(cr,1,1,1);
         }
         else if (s->snr < 25)
         {
@@ -78,13 +74,13 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
         y2 = y + radius*cos(rad);
         cairo_move_to(cr, x1, y1);
         cairo_line_to(cr, x2, y2);
-        cairo_stroke(cr);        
+        cairo_stroke(cr);
     }
 
     double sw = scf *0.9 / wbt->gps.nview;
     if (sw > 0.1*w) sw =  0.1*scf;
     double bht = h * 0.9;
-    
+
     for(i =0; i < wbt->gps.nview; i++)
     {
         rad = wbt->gps.sinfo[i].azimuth * (M_PI / 180.0);
@@ -107,7 +103,7 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
         double ht = (wbt->gps.sinfo[i].snr/100.0)*h/2;
         double xp = scf*0.06+i*sw;
         double bw = sw - scf*0.02;
-        
+
         sat_set_colour(cr, &wbt->gps.sinfo[i]);
         cairo_rectangle(cr, xp, bht - ht , bw, ht);
         cairo_fill_preserve (cr);
@@ -128,4 +124,3 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
         }
     }
 }
-#endif

@@ -1,5 +1,2 @@
-#ifndef __VERSION_H__
-#define __VERSION_H__
-#define PACKAGE                 "@PACKAGE@"
-#define VERSION                 "@VERSION@"
-#endif
+#define VERSION "@version@"
+#define PACKAGE                 "gtk-g-rays2"

@@ -8,7 +8,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -18,10 +18,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
@@ -36,6 +32,7 @@
 #include <errno.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
+#include <locale.h>
 
 #define DEFDEVS "[g-rays2]\ndevices = auto;bluetooth;/dev/ttyUSB0\n"
 
@@ -70,8 +67,8 @@ void saveprefs(void)
     char **d;
     GString *g;
     g = g_string_new("[g-rays2]\ndevices=");
-    
-    
+
+
     g_mkdir_with_parents(wbt->confdir,0700);
     fd = g_open(wbt->confnam, O_WRONLY|O_CREAT|O_TRUNC, 0600);
     if(fd != -1)
@@ -85,7 +82,7 @@ void saveprefs(void)
             }
         }
         *(g->str+g->len-1) = '\n';
-        
+
         if(wbt->lastdev)
         {
             g_string_append(g, "lastdev=");
@@ -122,7 +119,7 @@ void saveprefs(void)
             g_string_append(g, wbt->btaddr);
             g_string_append_c(g,'\n');
         }
-        
+
         if (write(fd,g->str,g->len))
             ;  /* fail, silently to shutup older gcc */
         close(fd);
@@ -140,23 +137,23 @@ static void getprefs(void)
     gboolean res = FALSE;
     GKeyFile *kf = g_key_file_new();
     gsize len;
-    
+
     if(wbt->confdir == NULL)
         wbt->confdir = g_build_filename(g_get_user_config_dir(), "g-rays2", NULL);
     if(wbt->confnam == NULL)
         wbt->confnam = g_build_filename(wbt->confdir, "g-rays2rc",NULL);
-    
+
     if(wbt->confnam)
     {
         res = g_key_file_load_from_file(kf, wbt->confnam, G_KEY_FILE_NONE, NULL);
     }
-    
+
     if (res == FALSE)
     {
         g_key_file_load_from_data(kf, DEFDEVS, sizeof(DEFDEVS)-1,
                                   G_KEY_FILE_NONE, NULL);
     }
-        
+
     wbt->devs = g_key_file_get_string_list(kf,"g-rays2","devices",
                                                  &len, NULL);
     wbt->lastdev =  g_key_file_get_string(kf,"g-rays2","lastdev", NULL);
@@ -165,7 +162,7 @@ static void getprefs(void)
     wbt->trackmarks = g_key_file_get_boolean(kf,"g-rays2","trackmarks", NULL);
     wbt->defbtaddr = g_key_file_get_string(kf,"g-rays2","btaddr", NULL);
     wbt->defrfcom  = g_key_file_get_string(kf,"g-rays2","rfcom", NULL);
-    
+
     if(res == FALSE)
     {
         saveprefs();
@@ -177,7 +174,7 @@ char *find_gps_dev(void)
     int n;
     static char gdev[]="/dev/gpsX";
     char *rgdev=NULL;
-    
+
     for(n = 0; n < 10; n++)
     {
         gdev[8] = '0' + n;
@@ -230,7 +227,7 @@ void makecombo(void)
     {
         int ndev=-1;
         int dn;
-        
+
         char *gdev = find_gps_dev();
         if (gdev)
         {
@@ -259,7 +256,7 @@ void makecombo(void)
         }
     }
     wbt->ndevs = n;
-    gtk_combo_box_set_active(GTK_COMBO_BOX(wbt->devcombo), lastn);    
+    gtk_combo_box_set_active(GTK_COMBO_BOX(wbt->devcombo), lastn);
 }
 
 gboolean Accel(GtkAccelGroup *accel_group, GObject *acceleratable,
@@ -374,7 +371,7 @@ int main (int argc, char **argv)
             exit(1);
         }
     }
-    
+
     if(show_vers)
     {
         fputs(PACKAGE " v" VERSION "\n", stderr);

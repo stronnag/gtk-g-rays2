@@ -5,7 +5,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -23,12 +23,7 @@
 #include "version.h"
 #include <glib/gi18n.h>
 #include "bluebus.h"
-
-#ifdef HAVE_CAIRO
-#ifdef NEED_CAIRO_H
 #include <cairo.h>
-#endif
-#endif
 
 typedef struct
 {
@@ -72,7 +67,7 @@ typedef struct
     short prn[32];
     sat_info_t sinfo[32];
     char alat[32];
-    char alon[32];    
+    char alon[32];
     char valid_rmc;
     char status_gga;
     char mode1_gsa;
@@ -107,7 +102,7 @@ typedef struct
     gboolean verbose;
     gboolean trackmarks;
     gboolean usedevgps;
-    gboolean dologin;    
+    gboolean dologin;
     G_rays *g;
     int sfd;
     int sspeed;
@@ -161,11 +156,6 @@ extern void write_serial(char *msg, int len);
 extern void start_serial_handler();
 extern void perform_login();
 
-#ifdef HAVE_CAIRO
-#include <cairo.h>
 extern void graph_draw(GtkWidget *,cairo_t *);
-#endif
 
 #endif
-
-

@@ -5,7 +5,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,10 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-#ifdef HAVE_CONFIG_H
-# include <config.h>
-#endif
 
 #include <gtk/gtk.h>
 #include <assert.h>
@@ -77,7 +73,7 @@ void kick_actions(void)
             }
             p=stpcpy(p,"\n");
             *p = 0;
-            
+
             if(wbt->verbose) wbt_debug("Init IO %s", msg);
             write_serial(msg, -1);
         }
@@ -107,14 +103,14 @@ char *save_dialogue(char *name, WBT_FileFilter_t filflg, int *del)
     char *filename = NULL;
 
     dialog = gtk_file_chooser_dialog_new (_("Save File"),
-                                          NULL, 
+                                          NULL,
                                           GTK_FILE_CHOOSER_ACTION_SAVE,
                                           "Cancel",
                                           GTK_RESPONSE_CANCEL,
                                           "Save",
                                           GTK_RESPONSE_ACCEPT,
                                           NULL);
-    
+
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog),
                                                    TRUE);
     if(wbt->savepath)
@@ -128,13 +124,13 @@ char *save_dialogue(char *name, WBT_FileFilter_t filflg, int *del)
     gtk_file_filter_set_name (filter, _("Any File"));
     gtk_file_filter_add_pattern (filter, "*");
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog),filter);
-    filter = gtk_file_filter_new ();    
+    filter = gtk_file_filter_new ();
     gtk_file_filter_set_name (filter, _("GPX Files"));
     gtk_file_filter_add_pattern (filter, "*.gpx");
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog),filter);
     if(filflg == WBT_FILTER_GPX)
     {
-        gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog),filter);        
+        gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog),filter);
     }
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name (filter, _("KML Files"));
@@ -142,14 +138,14 @@ char *save_dialogue(char *name, WBT_FileFilter_t filflg, int *del)
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog),filter);
     if(filflg == WBT_FILTER_KML)
     {
-        gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog),filter);        
+        gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog),filter);
     }
     gtk_file_chooser_set_do_overwrite_confirmation(
         GTK_FILE_CHOOSER (dialog),TRUE);
     if(*del)
     {
        GtkWidget *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL,0);
-    
+
        if(*del & WBT_SAVE_DEL)
        {
            toggle = gtk_check_button_new_with_label(_("Delete from device"));
@@ -182,7 +178,7 @@ char *save_dialogue(char *name, WBT_FileFilter_t filflg, int *del)
        gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog),
                                            vbox);
     }
-    
+
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
         filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
@@ -219,7 +215,7 @@ char *save_dialogue(char *name, WBT_FileFilter_t filflg, int *del)
 
 void switch_page(int n)
 {
-    
+
     switch(n)
     {
         case 0:
@@ -228,7 +224,7 @@ void switch_page(int n)
             wbt->serq = g_slist_append(wbt->serq,"5,2");
             break;
         case 1:
-            flush_xmit_queue();            
+            flush_xmit_queue();
             wbt->serq = g_slist_append(wbt->serq,"2,1");
             break;
     }
