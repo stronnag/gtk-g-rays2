@@ -27,7 +27,7 @@ executable(
 )
 
 mvers = meson.version()
-if mvers.version_compare('>=0.58.0')
+if mvers.version_compare('>=0.59.0')
   gnome.post_install(
     gtk_update_icon_cache: true,
     update_desktop_database: true
