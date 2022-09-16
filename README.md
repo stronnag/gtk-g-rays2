@@ -52,10 +52,14 @@ From version 0.99, the preferences dialogue also allows the user to set and modi
 
 ## Requirements
 
+Development versions of:
+
 * gtk+-3
 * libglade
 * cairo
-* udev
+* gudev
+* bluez
+
 * meson & ninja
 
 As cairo is a gtk+-3.0 dependency, there is no longer a 'non-cairo` option.
