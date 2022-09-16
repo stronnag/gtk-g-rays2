@@ -39,7 +39,7 @@
 #elif defined(__FreeBSD__)
 #define DEFDEVS "[g-rays2]\ndevices =/dev/cuaU0\n"
 #else
-#define DEFDEVS "[g-rays2]\ndevices = \n"
+#define DEFDEVS "[g-rays2]\ndevices = (undefined)\n"
 #endif
 
 #include "wbt201.h"

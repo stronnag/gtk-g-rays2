@@ -10,7 +10,6 @@ configure_file(
   configuration : conf_data
 )
 configuration_inc = include_directories('build', 'src')
-add_project_link_arguments(['-rdynamic'], language: 'c')
 
 subdir('po')
 subdir('src')
@@ -28,10 +27,16 @@ executable(
 
 mvers = meson.version()
 if mvers.version_compare('>=0.59.0')
-  gnome.post_install(
-    gtk_update_icon_cache: true,
-    update_desktop_database: true
-  )
+  if host_machine.system() == 'darwin'
+    gnome.post_install(
+      gtk_update_icon_cache: true,
+    )
+  else
+    gnome.post_install(
+      gtk_update_icon_cache: true,
+      update_desktop_database: true
+    )
+  endif
 else
   meson.add_install_script('meson/post_install.sh')
 endif

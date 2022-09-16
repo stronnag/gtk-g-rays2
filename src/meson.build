@@ -19,18 +19,15 @@ deps = [
 if host_machine.system() == 'linux'
   deps += dependency('gudev-1.0')
   deps += dependency('bluez')
-else
-  c_defs += '-DNO_DISCOVERY'
 endif
 
 mlist = files('grays_marshal.list')
 m = gnome.genmarshal('grays_marshal',
-		 sources: mlist,
-		 install_header: false,
-		 internal: true,
-		 stdinc: true,
-		 valist_marshallers: true,
+		     sources: mlist,
+		     install_header: false,
+		     internal: true,
+		     stdinc: true,
+		     valist_marshallers: true,
 		    )
-
 src += m
-#message(src)
+add_project_link_arguments(['-rdynamic'], language: 'c')

@@ -1,9 +1,8 @@
 ## Overview
 
-This is gtk-g-ray2, a tool to access the Wintec WBT-201 from free
-operating systems.
+This is gtk-g-ray2, a tool to access the Wintec WBT-201 from free operating systems.
 
-gtk-g-gray2 v 2.0 and later is effectively Linux only as it uses `udev` for device discovery.
+gtk-g-gray2 v 2.0 and later is somewhat Linux only as it uses `udev` for device discovery.
 
 ## Installation
 
@@ -49,6 +48,15 @@ devices = /dev/ttyUSB0;/dev/ttyUSB1;/dev/ttyUSB2;/dev/rfcomm0;/dev/rfcomm1
 Any device name of just "bluetooth" or containing the string "rfcomm" will be cause bluetooth discovery to (try to) find the real device (new in 2.00).
 
 From version 0.99, the preferences dialogue also allows the user to set and modify the serial device list.
+
+### FreeBSD
+
+Devices must be explicitly defined, a default of `/dev/cuaU0` is set by default.
+
+### MacOS
+
+Devices must be explicitly defined, no default is set by default.
+The `--strip` parameter must NOT be given when meson is setup.
 
 ## Requirements
 
