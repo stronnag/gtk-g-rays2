@@ -34,8 +34,15 @@ void sat_set_colour(cairo_t *cr, sat_info_t * s)
     }
 }
 
-void graph_draw(GtkWidget *wgt, cairo_t *cr)
-{
+static void set_theme_fg_colour(GtkWidget* w, cairo_t *cr) {
+  GtkStyleContext *style;
+  GdkRGBA col;
+  style = gtk_widget_get_style_context (w);
+  gtk_style_context_get_color(style, GTK_STATE_FLAG_NORMAL, &col);
+  cairo_set_source_rgb(cr,col.red, col.green, col.blue);
+}
+
+void graph_draw(GtkWidget *wgt, cairo_t *cr) {
     double x, y, w, h;
     double scf, radius;
     double x1,x2,y1,y2;
@@ -54,18 +61,16 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
     cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL,
                        CAIRO_FONT_WEIGHT_NORMAL);
     cairo_set_font_size (cr, scf/20);
-
+    set_theme_fg_colour(wgt, cr);
     cairo_set_line_width (cr, 1.0);
     cairo_arc(cr, x, y, radius, 0, 2 * M_PI);
     cairo_stroke(cr);
     cairo_set_line_width (cr, 0.5);
-    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2);
     cairo_arc(cr, x, y, radius*2.0/3.0, 0, 2 * M_PI);
     cairo_stroke(cr);
     cairo_arc(cr, x, y, radius/3.0, 0, 2 * M_PI);
     cairo_stroke(cr);
-    for(i= 0; i < 8; i++)
-    {
+    for(i= 0; i < 8; i++) {
         rad = i*M_PI/8.0;
         x1 = x + radius*sin(rad);
         y1 = y + radius*cos(rad);
@@ -81,8 +86,7 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
     if (sw > 0.1*w) sw =  0.1*scf;
     double bht = h * 0.9;
 
-    for(i =0; i < wbt->gps.nview; i++)
-    {
+    for(i =0; i < wbt->gps.nview; i++) {
         rad = wbt->gps.sinfo[i].azimuth * (M_PI / 180.0);
         rng = (90.0- wbt->gps.sinfo[i].elev)*(radius/90.0);
         x1 = x + rng*sin(rad);
@@ -90,12 +94,13 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
         sat_set_colour(cr, &wbt->gps.sinfo[i]);
         cairo_arc(cr, x1, y1, radius/8, 0, 2*M_PI);
         cairo_fill_preserve (cr);
-        cairo_set_line_width(cr, w/100);
-        cairo_set_source_rgb (cr, 0, 0, 0);
+        cairo_set_line_width(cr, w/200);
+        set_theme_fg_colour(wgt, cr);
         cairo_stroke (cr);
         cairo_move_to(cr, x1-0.03*scf, y1+0.02*scf);
+        cairo_set_source_rgb (cr, 0, 0, 0);
         if (wbt->gps.sinfo[i].snr && wbt->gps.sinfo[i].in_use)
-            cairo_set_source_rgb(cr, 1, 1, 1);
+          cairo_set_source_rgb(cr, 1, 1, 1);
         sprintf(buf,"%02d", wbt->gps.sinfo[i].prn);
         cairo_show_text(cr, buf);
         cairo_stroke(cr);
@@ -107,8 +112,8 @@ void graph_draw(GtkWidget *wgt, cairo_t *cr)
         sat_set_colour(cr, &wbt->gps.sinfo[i]);
         cairo_rectangle(cr, xp, bht - ht , bw, ht);
         cairo_fill_preserve (cr);
-        cairo_set_line_width(cr, scf/100);
-        cairo_set_source_rgb (cr, 0, 0, 0);
+        cairo_set_line_width(cr, scf/400);
+        set_theme_fg_colour(wgt, cr);
         cairo_stroke(cr);
 
         cairo_move_to(cr, xp-scf*0.01, bht + scf*0.1);
