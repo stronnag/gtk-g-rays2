@@ -1,0 +1,15 @@
+rule go
+    command = go build -ldflags "-w -s" -o $out
+
+build go-wbt201:  go btaddr_linux.go  btaddr_other.go  gpxgen.go  wbt201.go go.sum
+default go-wbt201
+
+rule install
+     command = cp $in $$HOME/.local/bin
+
+build install: install go-wbt201
+
+rule gosum
+     command = go mod tidy
+
+build go.sum: gosum
