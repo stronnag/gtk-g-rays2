@@ -8,6 +8,21 @@ c_defs = ['-D_GNU_SOURCE', '-DLOCALEDIR="'+localedir+'"',
 	  '-DPACKAGE_DATA_DIR="'+package_data+'"',
 	  '-DHELPDIR="'+help_dir+'"']
 
+deps = [
+  dependency('gtk+-3.0'),
+  dependency('gio-2.0'),
+  dependency('glib-2.0'),
+  dependency('cairo'),
+  meson.get_compiler('c').find_library('m')
+]
+
+if host_machine.system() == 'linux'
+  deps += dependency('gudev-1.0')
+  deps += dependency('bluez')
+else
+  c_defs += '-DNO_DISCOVERY'
+endif
+
 mlist = files('grays_marshal.list')
 m = gnome.genmarshal('grays_marshal',
 		 sources: mlist,

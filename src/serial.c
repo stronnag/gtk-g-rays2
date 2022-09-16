@@ -29,11 +29,13 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <assert.h>
-#include <wait.h>
 #include <unistd.h>
 #include "wbt201.h"
+#ifdef __linux
+#include <wait.h>
 #include <gudev/gudev.h>
 #include <sys/signalfd.h>
+#endif
 
 #define VENDOR_ID "10c4"
 #define MODEL_ID  "ea60"
@@ -41,7 +43,7 @@
 #define handle_error(msg)                                       \
     do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
-
+#ifdef __linux
 static int get_ttyusb(char* devs)
 {
     GUdevClient* uc;
@@ -84,9 +86,9 @@ void clean_bluez(void)
     g_ray_disconnect (wbt->g);
     wbt->g = NULL;
 }
+#endif
 
-void reset_quit_status(void)
-{
+void reset_quit_status(void) {
     GtkWidget *q;
     assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object
                                   (wbt->builder,
@@ -94,11 +96,17 @@ void reset_quit_status(void)
     gtk_button_set_label (GTK_BUTTON(q),"gtk-quit");
 }
 
+static void fallback_dev(char *dev) {
+  if(access(dev,R_OK|W_OK) == 0) {
+    wbt->curdev = g_strdup(dev);
+    done_serial();
+    complete_serial_connect();
+  }
+}
 
-static void check_dev(char *dev)
-{
-    if(0 == strcasecmp(dev,"auto"))
-    {
+static void check_dev(char *dev) {
+#ifdef __linux
+  if(0 == strcasecmp(dev,"auto")) {
         char devs[16];
         memset(devs,0xff,sizeof(devs));
         if(get_ttyusb(devs) == 1)
@@ -111,11 +119,8 @@ static void check_dev(char *dev)
         }
     }
 
-    if(wbt->curdev == NULL)
-    {
-        if( (strcasecmp(dev,"auto") == 0)  ||
-            (strcasecmp(dev,"bluetooth") == 0))
-        {
+    if(wbt->curdev == NULL) {
+        if( (strcasecmp(dev,"auto") == 0)  || (strcasecmp(dev,"bluetooth") == 0)) {
             GtkWidget *q;
             assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object
                                           (wbt->builder,
@@ -127,21 +132,16 @@ static void check_dev(char *dev)
                 if(wbt->g)
                     g_ray_connect (wbt->g);
             }
-        }
-        else
-        {
-            if(access(dev,R_OK|W_OK) == 0)
-            {
-                wbt->curdev = g_strdup(dev);
-                done_serial();
-                complete_serial_connect();
-            }
+        } else {
+          fallback_dev(dev);
         }
     }
+#else
+    fallback_dev(dev);
+#endif
 }
 
-void setup_serial(int fd,int baudrate)
-{
+void setup_serial(int fd,int baudrate) {
     struct termios tio;
     memset (&tio, 0, sizeof(tio));
     cfmakeraw(&tio);
@@ -167,8 +167,7 @@ void setup_serial(int fd,int baudrate)
     tcsetattr(fd,TCSANOW,&tio);
 }
 
-void done_serial(void)
-{
+void done_serial(void) {
     if(wbt->curdev)
     {
         wbt->serfd = open(wbt->curdev, O_RDWR|O_NOCTTY|O_NONBLOCK|O_NDELAY);
@@ -206,11 +205,11 @@ void serial_tidy(void)
         wbt->serfd = -1;
     }
     if(wbt->verbose) wbt_debug("serial tidy: BT %p\n", wbt->g);
-    if(wbt->g)
-    {
+#if __linux
+    if(wbt->g) {
         clean_bluez();
     }
-
+#endif
     if(wbt->curdev)
     {
         g_free(wbt->curdev);

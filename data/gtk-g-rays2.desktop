@@ -2,15 +2,9 @@
 Encoding=UTF-8
 Version=1.0
 Name=GTK G-Rays2
-Exec=/usr/bin/gtk-g-rays2
+Exec=gtk-g-rays2
 Icon=gtk-g-rays2
-Info="GTK G-Rays2"
-StartupWMClass=gtk-g-rays2
 Categories=GTK;Geoscience;Utility;Other;
 Comment="Gtk+ management tool for WBT-201 GPS"
 Terminal=false
 Type=Application
-X-Window-Icon=gtk-g-rays2
-X-HildonDesk-ShowInToolbar=true
-X-Osso-Service=org.maemo.gtk_g_rays2
-X-Osso-Type=application/x-executable

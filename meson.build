@@ -20,15 +20,7 @@ subdir('docs')
 executable(
     meson.project_name(),
     src,
-    dependencies: [
-      dependency('gtk+-3.0'),
-      dependency('gio-2.0'),
-      dependency('glib-2.0'),
-      dependency('cairo'),
-      dependency('gudev-1.0'),
-      dependency('bluez'),
-      meson.get_compiler('c').find_library('m')
-    ],
+    dependencies: deps,
     c_args: c_defs,
     include_directories : configuration_inc,
     install: true,

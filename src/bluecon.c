@@ -12,23 +12,15 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <sys/socket.h>
+
+#ifdef __linux
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 
-void reset_quit()
-{
-    GtkWidget *q;
-    assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object
-                                  (wbt->builder,
-                                   "button3"))));
-    gtk_button_set_label (GTK_BUTTON(q),"gtk-quit");
-}
+static gboolean create_bt_dev(void* unused) {
 
-static gboolean create_bt_dev(void* unused)
-{
-    
     struct sockaddr_rc addr = { 0 };
     int s, status = -1;
 
@@ -44,7 +36,7 @@ static gboolean create_bt_dev(void* unused)
         addr.rc_family = AF_BLUETOOTH;
         addr.rc_channel = (uint8_t) 1;
         if(wbt->verbose)
-            wbt_debug("BT address %s\n", wbt->btaddr);                
+            wbt_debug("BT address %s\n", wbt->btaddr);
         str2ba( wbt->btaddr, &addr.rc_bdaddr );
             // connect to server
         status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
@@ -85,14 +77,14 @@ gboolean bt_discover(void *user_data)
         max_rsp = 255;
         flags = 0; // IREQ_CACHE_FLUSH; // 0 => no flush, may return earlier data, faster
         ii = (inquiry_info*)malloc(max_rsp * sizeof(inquiry_info));
-        
+
         num_rsp = hci_inquiry(dev_id, len, max_rsp, NULL, &ii, flags);
         if( num_rsp < 0 ) perror("hci_inquiry");
 
         for (i = 0; i < num_rsp; i++) {
             ba2str(&(ii+i)->bdaddr, addr);
             memset(name, 0, sizeof(name));
-            if (hci_read_remote_name(sock, &(ii+i)->bdaddr, sizeof(name), 
+            if (hci_read_remote_name(sock, &(ii+i)->bdaddr, sizeof(name),
                                      name, 0) >= 0)
             {
                 if (strcmp(name,"G-Rays2") == 0)
@@ -123,7 +115,7 @@ void open_bluez_dev(G_rays *g)
 {
     if(wbt->defbtaddr)
         wbt->btaddr = wbt->defbtaddr;
-    
+
     if(wbt->btaddr == NULL)
         g_idle_add(bt_discover, NULL);
     else
@@ -153,5 +145,12 @@ int g_ray_connect(G_rays *g)
     open_bluez_dev(g);
     return 0;
 }
+#endif
 
-
+void reset_quit() {
+    GtkWidget *q;
+    assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object
+                                  (wbt->builder,
+                                   "button3"))));
+    gtk_button_set_label (GTK_BUTTON(q),"gtk-quit");
+}

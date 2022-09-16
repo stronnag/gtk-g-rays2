@@ -34,7 +34,13 @@
 #include <math.h>
 #include <locale.h>
 
+#ifdef __linux
 #define DEFDEVS "[g-rays2]\ndevices = auto;bluetooth;/dev/ttyUSB0\n"
+#elif defined(__FreeBSD__)
+#define DEFDEVS "[g-rays2]\ndevices =/dev/cuaU0\n"
+#else
+#define DEFDEVS "[g-rays2]\ndevices = \n"
+#endif
 
 #include "wbt201.h"
 
