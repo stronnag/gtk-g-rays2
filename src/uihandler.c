@@ -234,13 +234,13 @@ G_MODULE_EXPORT void on_quit1_activate (GtkWidget *w, gpointer user_data)
 
 G_MODULE_EXPORT void on_about1_activate (GtkWidget *w, gpointer user_data)
 {
-    GtkWidget *q;
-    assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object (
-                                      wbt->builder,"about"))));
-    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(q),VERSION);
-    gtk_widget_show(q);
+  GtkWidget *q;
+  assert(NULL != (q=GTK_WIDGET (gtk_builder_get_object (
+							wbt->builder,"about"))));
+  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(q),VERSION);
+  gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(q), "gtk-g-rays2");
+  gtk_widget_show(q);
 }
-
 
 G_MODULE_EXPORT void on_log_type_changed (GtkWidget *w, gpointer user_data)
 {
