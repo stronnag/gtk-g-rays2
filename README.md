@@ -1,3 +1,4 @@
+# Migrated to [codeberg](https://codeberg.org/stronnag/gtk-g-rays2)
 ## Overview
 
 This is gtk-g-ray2, a tool to access the Wintec WBT-201 from free operating systems.
